@@ -1,0 +1,10 @@
+commit 9682485f5b8c5078548a4094ceab789a48150aa8
+tree f338db9d1ad3a1518f864576f04d1247a908a6bb
+parent d9ddf907ed650d0ef30f2d4cf7610024eb3dd0d0
+author Mike Wyatt <wyatt.mike@gmail.com> 1387468320 -0400
+committer Joe Smith <joe.smith@gmail.com> 1387468320 -0400
+
+    proper user_is_omniscient logic
+
+:100644 100644 b49e6da4bc7a90e0bb6a819f4670f55d9fde6501 e3c4b32bba5c005bd571cfa45cca59fa42f29faa M	dashboard/views.py
+
