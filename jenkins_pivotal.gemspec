@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = JenkinsPivotal::VERSION
   spec.authors       = ["Mike Wyatt"]
   spec.email         = ["wyatt.mike@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Jenkins git changelog -> Pivotal Tracker}
+  spec.description   = %q{Jenkins git changelog -> Pivotal Tracker}
   spec.homepage      = ""
   spec.license       = "MIT"
 
