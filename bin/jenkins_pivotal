@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+
+root = File.expand_path '../../lib', __FILE__
+$:.unshift(root) unless $:.include?(root)
+
+require 'jenkins_pivotal'
+
+JenkinsPivotal::Cli.new(ARGV).run!
