@@ -13,7 +13,7 @@ module JenkinsPivotal
         on 'm', 'message=', 'Message to add.'
         on 'f', 'file=', 'Read message from file.'
         on 'u', 'url=', 'URL to browse commit.'
-        on 'a', 'acceptor-token=', 'URL to browse commit.'
+        on 'a', 'acceptor-token=', 'Tracker token of acceptor.'
 
         on 'v', 'version', 'Display version information.' do
           puts "#{$0} #{JenkinsPivotal::VERSION}"
