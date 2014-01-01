@@ -1,0 +1,53 @@
+commit 9682485f5b8c5078548a4094ceab789a48150aa8
+tree f338db9d1ad3a1518f864576f04d1247a908a6bb
+parent d9ddf907ed650d0ef30f2d4cf7610024eb3dd0d0
+author Mike Wyatt <wyatt.mike@gmail.com> 1387468320 -0400
+committer Mike Wyatt <wyatt.mike@gmail.com> 1387468320 -0400
+
+    proper user_is_omniscient logic
+
+:100644 100644 b49e6da4bc7a90e0bb6a819f4670f55d9fde6501 e3c4b32bba5c005bd571cfa45cca59fa42f29faa M	dashboard/views.py
+
+commit f56e6f4bc8abeb01d3ef31eaab0aa137c8aad970
+tree 314c398b0db343ca960ebf3a79d547975cb3fa25
+parent cf747b094e18c2055cff517f8b8cd7f06691293c
+author Mike Wyatt <wyatt.mike@gmail.com> 1387468320 -0400
+committer Mike Wyatt <wyatt.mike@gmail.com> 1387468320 -0400
+
+    Use global showDialog function on calendar
+
+:100644 100644 425cec2a745b01ada9618b6262cea1597c4fc434 d2decc09a6f95283f2565f4ee6b6f3720e2751f5 M	tcecalendar/static/js/calendar.js
+
+commit d9ddf907ed650d0ef30f2d4cf7610024eb3dd0d0
+tree a632c0cbbefb4250433e9b3fe68ce93f10fa7c71
+parent 4bc2782e5896e37947e3bd2273b6a5cfbbd9169d
+author Mike Wyatt <wyatt.mike@gmail.com> 1387468320 -0400
+committer Mike Wyatt <wyatt.mike@gmail.com> 1387468320 -0400
+
+    show completed tasks on dashboard, omniscient roles see all tasks
+
+:100644 100644 ebb22924da0183007bb73600a262f22381b520df b49e6da4bc7a90e0bb6a819f4670f55d9fde6501 M	dashboard/views.py
+
+commit 4bc2782e5896e37947e3bd2273b6a5cfbbd9169d
+tree ec13b8b32fe46a54846cbddc928eaa0907a93e6d
+parent 928c51bfb5508846240fdbf2f6df650278d62baa
+author Mike Wyatt <wyatt.mike@gmail.com> 1387468320 -0400
+committer Mike Wyatt <wyatt.mike@gmail.com> 1387468320 -0400
+
+    rebuild stylesheets
+
+:100644 100644 a37962188ac93f1beba47e1e37838741c6460ebf 16e597cae082634d6abd4f0b4e489fe007a29f8d M	frontend/static/assets/stylesheets/libs/mobile/learning-centre.css
+:100644 100644 bfc39b983f7401594e1e61e76591fa9558113929 a9f2be7fcff4df92a3cef0b8cf94fb8d3f693ee2 M	frontend/static/assets/stylesheets/libs/mobile/teachers-lounge.css
+:100644 100644 00b41fa6758ddeed334fba53779edb0d3331c192 db6f3c0a2ff9bee71cabe7acbddba5ca92e3df94 M	frontend/static/assets/stylesheets/mobile_TCE.css
+:100644 100644 3e9d93f235b2be103aa17e8e29f848d2309b7e18 91b1070b37a4eb46e85054177d69adee439b80bf M	frontend/static/assets/stylesheets/screen-TCE.css
+
+commit e26a7acda7bcdf428ad098e6b4eb9b66b7759bc6
+tree 666900a05c95a597b5eb1504d9c7baea54ec833e
+parent d4a6136ac66041ea5729557a1511df23bf6c89e3
+author Mike Wyatt <wyatt.mike@gmail.com> 1387468320 -0400
+committer Mike Wyatt <wyatt.mike@gmail.com> 1387468320 -0400
+
+    Fix for `incompatible character encodings: ASCII-8BIT and UTF-8`, maybe
+
+:100644 100644 a2c5e5813c7a91177bdb0218af463c5baca4072e 868c0ea25a6ee98d61291e95897a1939f12f14a8 M	frontend/sass/config-dev.rb
+:100644 100644 95507498a0cb62ef5f469aaa16bdfc33580b8e47 7f9ab18a069fb37e41a42e86b09610a020f0978f M	frontend/sass/config.rb

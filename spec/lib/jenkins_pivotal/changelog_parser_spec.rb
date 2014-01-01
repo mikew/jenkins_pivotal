@@ -4,7 +4,7 @@ describe JenkinsPivotal::ChangelogParser do
   subject { described_class.new fixture_path('changelog.xml') }
 
   its(:entries)          { should be_an Array }
-  its(:'entries.length') { should == 43 }
+  its(:'entries.length') { should == 5 }
   its(:data)             { should == read_fixture('changelog.xml') }
 end
 
