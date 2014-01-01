@@ -49,21 +49,17 @@ describe JenkinsPivotal::Agent do
     end
   end
 
-  describe 'on run!' do
-    subject do
-      described_class.new(
-        token: 'asdf',
-        project: '1234',
-        message: 'Message',
-        url: 'http://example.com/%s',
-        file: fixture_path('single-entry')
-      )
-    end
+  describe 'with deliveries' do
+    it 'can tell when an issue is delivered' do
+      single = '[delivers #123]'
+      multiple = '[#123 delivered] [deliver #234]'
+      complex = '[delivers #123 #234] [#345]'
+      none = '[#123] not delivered'
 
-    it 'formats the message with message_variables' do
-      #subject.should_receive(:notify).with 'asdf', 1234
-      #subject.stub(:client).and_return double('Mock Client')
-      #p subject.client
+      subject.should_deliver(single).should == [123]
+      subject.should_deliver(multiple).should == [123, 234]
+      subject.should_deliver(complex).should == [123, 234]
+      subject.should_deliver(none).should == []
     end
   end
 end

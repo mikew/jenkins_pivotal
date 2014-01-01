@@ -13,6 +13,7 @@ module JenkinsPivotal
         on 'm', 'message=', 'Message to add.'
         on 'f', 'file=', 'Read message from file.'
         on 'u', 'url=', 'URL to browse commit.'
+        on 'a', 'acceptor-token=', 'URL to browse commit.'
 
         on 'v', 'version', 'Display version information.' do
           puts "#{$0} #{JenkinsPivotal::VERSION}"
@@ -32,7 +33,8 @@ module JenkinsPivotal
         project: options[:project],
         message: options[:message],
         file: options[:file],
-        url: options[:url]
+        url: options[:url],
+        acceptor_token: options[:'acceptor-token']
       ).run!
     end
   end

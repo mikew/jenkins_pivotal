@@ -1,6 +1,7 @@
 module JenkinsPivotal
   class Agent
-    attr_reader :token, :project, :message, :url, :current_entry, :file
+    attr_reader :token, :project, :message, :url, :current_entry, :file,
+      :acceptor_token
 
     def initialize(options)
       @token = options[:token]
@@ -8,6 +9,7 @@ module JenkinsPivotal
       @message = options[:message]
       @file = options[:file]
       @url = options[:url]
+      @acceptor_token = options[:acceptor_token]
       @current_entry = nil
     end
 
@@ -24,7 +26,7 @@ module JenkinsPivotal
     end
 
     def client
-      @_client ||= Client.new token: token
+      @_client ||= Client.new token: token, acceptor_token: acceptor_token
     end
 
     def message_to_post
@@ -53,6 +55,20 @@ module JenkinsPivotal
       end
     end
 
+    def should_deliver(msg)
+      ret = []
+      refs = msg.scan /\[((?:.*?)([#0-9 ]+)(?:.*?))\]/
+
+      refs.each do |group|
+        if group[0].downcase.include? 'deliver'
+          ids = group[1].strip.split
+          ret.concat ids.map { |i| i.gsub('#', '').to_i }
+        end
+      end
+
+      return ret
+    end
+
     def run!
       parser = ChangelogParser.new changelog_path
       parser.entries.each do |entry|
@@ -68,6 +84,10 @@ module JenkinsPivotal
         }
 
         client.post_source_commits payload
+
+        should_deliver(current_entry.message).each do |story_id|
+          client.deliver_to_acceptor project, story_id
+        end
       end
     end
 
