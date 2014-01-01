@@ -70,8 +70,13 @@ module JenkinsPivotal
     end
 
     def run!
-      parser = ChangelogParser.new changelog_path
-      parser.entries.each do |entry|
+      all_entries = []
+      changelog_paths.each do |path|
+        parser = ChangelogParser.new changelog_path
+        all_entries.concat parser.entries
+      end
+
+      all_entries.each do |entry|
         @current_entry = entry
 
         payload = {
@@ -91,6 +96,46 @@ module JenkinsPivotal
       end
     end
 
+    def changelog_paths
+      # TODO this should be extracted into ChangelogGatherer or something
+      if ENV['CHANGELOG_PATH']
+        return [ ENV['CHANGELOG_PATH'] ]
+      end
+
+      start_from = 1
+      default_changelog = File.join env_variables['JENKINS_HOME'],
+        'jobs', env_variables['JOB_NAME'],
+        'builds', env_variables['BUILD_NUMBER'],
+        'changelog.xml'
+
+      # If it's the first build, there's nothing to gather.
+      if env_variables['BUILD_NUMBER'] == '1'
+        return [ default_changelog ]
+      end
+
+      last_success = File.join env_variables['JENKINS_HOME'],
+        'jobs', env_variables['JOB_NAME'],
+        'builds', 'lastSuccessfulBuild'
+
+      last_success_num = File.readlink last_success
+      if last_success_num != '-1'
+        # If the lastSuccessfulBuild was the previous build then the
+        # changelog will already be adequate.
+        if last_success_num.to_i == env_variables['BUILD_NUMBER'].to_i - 1
+          return [ default_changelog ]
+        else
+          start_from = last_success_num.to_i + 1
+        end
+      end
+
+      start_from.upto(env_variables['BUILD_NUMBER'].to_i).map do |i|
+        File.join env_variables['JENKINS_HOME'],
+          'jobs', env_variables['JOB_NAME'],
+          'builds', i.to_s,
+          'changelog.xml'
+      end
+    end
+
     private
 
     def env_variables
@@ -103,10 +148,8 @@ module JenkinsPivotal
       end
 
       File.join ENV['JENKINS_HOME'],
-        'jobs',
-        ENV['JOB_NAME'],
-        'builds',
-        ENV['BUILD_NUMBER'],
+        'jobs', ENV['JOB_NAME'],
+        'builds', ENV['BUILD_NUMBER'],
         'changelog.xml'
     end
   end

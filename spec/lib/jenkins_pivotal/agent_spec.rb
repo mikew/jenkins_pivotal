@@ -62,4 +62,50 @@ describe JenkinsPivotal::Agent do
       subject.should_deliver(none).should == []
     end
   end
+
+  describe 'gathering changelogs' do
+    let(:env) do
+      {
+        'JENKINS_HOME' => fixture_path('structures')
+      }
+    end
+
+    it 'returns the default changelog on first build' do
+      stubbed_env = {
+        'BUILD_NUMBER' => '1',
+        'JOB_NAME' => 'first-run'
+      }.merge env
+
+      expected = [ File.join(stubbed_env['JENKINS_HOME'],
+        'jobs', stubbed_env['JOB_NAME'],
+        'builds', stubbed_env['BUILD_NUMBER'],
+        'changelog.xml'
+      ) ]
+
+      subject.stub(:env_variables).and_return stubbed_env
+      subject.changelog_paths.should == expected
+    end
+
+    it 'starts from 1 when the lastSuccessfulBuild is -1' do
+      stubbed_env = {
+        'BUILD_NUMBER' => '5',
+        'JOB_NAME' => 'cloudy'
+      }.merge env
+
+      expected = [
+        File.join(stubbed_env['JENKINS_HOME'],
+          'jobs', stubbed_env['JOB_NAME'],
+          'builds', '4',
+          'changelog.xml'),
+
+        File.join(stubbed_env['JENKINS_HOME'],
+          'jobs', stubbed_env['JOB_NAME'],
+          'builds', stubbed_env['BUILD_NUMBER'],
+          'changelog.xml'),
+      ]
+
+      subject.stub(:env_variables).and_return stubbed_env
+      subject.changelog_paths.should == expected
+    end
+  end
 end

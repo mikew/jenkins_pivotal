@@ -3,9 +3,18 @@ module JenkinsPivotal
     attr_reader :entries, :data
 
     def initialize(path)
-      @data = File.read path
+      @data = ''
       @entries = []
 
+      if File.exists? path
+        @data = File.read path
+        load_entries
+      end
+    end
+
+    private
+
+    def load_entries
       blocks = @data.split /^(commit [a-f0-9]{40})/
 
       # If the first line is `commit ...`, the first item of the array will
