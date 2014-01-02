@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'fakefs/spec_helpers'
 
 describe JenkinsPivotal::Agent do
   subject do
@@ -88,9 +89,46 @@ describe JenkinsPivotal::Agent do
 
     it 'starts from 1 when the lastSuccessfulBuild is -1' do
       stubbed_env = {
+        'BUILD_NUMBER' => '3',
+        'JOB_NAME' => 'cloudy'
+      }.merge env
+
+      last_success = File.join(stubbed_env['JENKINS_HOME'],
+        'jobs', stubbed_env['JOB_NAME'],
+        'builds', 'lastSuccessfulBuild')
+      File.should_receive(:readlink, with: last_success).and_return '-1'
+
+      expected = [
+        File.join(stubbed_env['JENKINS_HOME'],
+          'jobs', stubbed_env['JOB_NAME'],
+          'builds', '1',
+          'changelog.xml'),
+
+        File.join(stubbed_env['JENKINS_HOME'],
+          'jobs', stubbed_env['JOB_NAME'],
+          'builds', '2',
+          'changelog.xml'),
+
+        File.join(stubbed_env['JENKINS_HOME'],
+          'jobs', stubbed_env['JOB_NAME'],
+          'builds', stubbed_env['BUILD_NUMBER'],
+          'changelog.xml'),
+      ]
+
+      subject.stub(:env_variables).and_return stubbed_env
+      subject.changelog_paths.should == expected
+    end
+
+    it 'starts from lastSuccessfulBuild + 1 otherwise' do
+      stubbed_env = {
         'BUILD_NUMBER' => '5',
         'JOB_NAME' => 'cloudy'
       }.merge env
+
+      last_success = File.join(stubbed_env['JENKINS_HOME'],
+        'jobs', stubbed_env['JOB_NAME'],
+        'builds', 'lastSuccessfulBuild')
+      File.should_receive(:readlink, with: last_success).and_return '3'
 
       expected = [
         File.join(stubbed_env['JENKINS_HOME'],
