@@ -72,7 +72,7 @@ module JenkinsPivotal
     def run!
       all_entries = []
       changelog_paths.each do |path|
-        parser = ChangelogParser.new changelog_path
+        parser = ChangelogParser.new path
         all_entries.concat parser.entries
       end
 
