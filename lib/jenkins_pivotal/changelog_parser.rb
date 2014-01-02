@@ -17,6 +17,10 @@ module JenkinsPivotal
     def load_entries
       blocks = @data.split /^(commit [a-f0-9]{40})/
 
+      if blocks.empty?
+        return
+      end
+
       # If the first line is `commit ...`, the first item of the array will
       # be an empty string.
       if '' == blocks[0]
